@@ -2,6 +2,8 @@
 
 namespace test\components;
 
+use test\controllers\BaseController;
+
 /**
  * Class Router
  * Controls routes via controllers and actions
@@ -34,15 +36,36 @@ class Router
     {
         $uri = $this->getURL();
 
-        if ($uri && isset($this->routes[$uri])) {
+        if (isset($this->routes[$uri])) {
 
             $controllerAction = explode('/', $this->routes[$uri]);
+        } else {
 
-            $controllerClass = '\\test\\controllers\\' . ucfirst($controllerAction[0]) . 'Controller';
+            $controllerAction = explode('/', $uri);
+        }
+
+        $controllerClass = '\\test\\controllers\\' . ucfirst($controllerAction[0]) . 'Controller';
+
+        /**
+         * @var $controllerObject BaseController
+         */
+        if (class_exists($controllerClass)) {
+
             $actionMethod = 'action' . ucfirst($controllerAction[1]);
 
             $controllerObject = new $controllerClass();
-            $controllerObject->$actionMethod();
+
+            if (method_exists($controllerObject, $actionMethod)) {
+
+                $controllerObject->$actionMethod();
+            } else {
+
+                $controllerObject->actionError();
+            }
+        } else {
+
+            $controllerObject = new BaseController();
+            $controllerObject->actionError();
         }
     }
 }

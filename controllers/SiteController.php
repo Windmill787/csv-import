@@ -10,18 +10,20 @@ class SiteController extends BaseController
     /**
      *
      */
-    public function actionLogin()
+    public function actionIndex()
     {
-        $this->render('login', [
-            'content' => 'Hello world',
+        $this->render('index', [
+            'content' => 'index',
         ]);
     }
 
     /**
      *
      */
-    public function actionSignup()
+    public function actionLogin()
     {
-
+        $this->render('index', [
+            'content' => 'login',
+        ]);
     }
 }

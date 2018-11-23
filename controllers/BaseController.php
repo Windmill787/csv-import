@@ -24,4 +24,13 @@ class BaseController
 
         require_once dirname(__FILE__) . '/../views/layouts/main.php';
     }
+
+    public function actionError()
+    {
+        $content = 'Page does not exist';
+
+        require_once dirname(__FILE__) . '/../views/base/error.php';
+
+        require_once dirname(__FILE__) . '/../views/layouts/main.php';
+    }
 }

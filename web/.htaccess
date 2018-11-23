@@ -4,3 +4,5 @@ RewriteEngine on
 
 # Otherwise forward the request to index.php
 RewriteRule . index.php
+
+AddType application/x-httpd-php .php
