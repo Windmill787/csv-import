@@ -24,9 +24,6 @@ class Db
                 $params['password']
             );
 
-            foreach($dbh->query('SELECT * from `data`') as $row) {
-                print_r($row);
-            }
             return $dbh;
 
         } catch (\PDOException $e) {

@@ -1,2 +1,2 @@
-<h1>hello</h1>
 <?php
+echo '<h1>'.$content.'</h1>';
