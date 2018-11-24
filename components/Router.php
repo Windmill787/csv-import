@@ -64,8 +64,7 @@ class Router
             }
         } else {
 
-            $controllerObject = new BaseController();
-            $controllerObject->actionError();
+            (new BaseController())->actionError();
         }
     }
 }

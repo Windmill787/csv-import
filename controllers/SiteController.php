@@ -10,20 +10,20 @@ class SiteController extends BaseController
     /**
      *
      */
-    public function actionIndex()
+    public function actionImport()
     {
-        $this->render('index', [
-            'content' => 'index',
+        return $this->render('import', [
+            'ty' => 'Hello',
         ]);
     }
 
     /**
      *
      */
-    public function actionLogin()
+    public function actionResult()
     {
-        $this->render('index', [
-            'content' => 'login',
+        return $this->render('result', [
+            'content' => 'Results',
         ]);
     }
 }
