@@ -7,9 +7,9 @@ namespace test\components;
  */
 class View
 {
-    public $title = 'Base title';
-    public $content = 'Base content';
-    public $path = 'Base path';
+    public $title = 'Title';
+    public $content = 'Content';
+    public $path = 'Path';
     public $params = [];
 
     /**

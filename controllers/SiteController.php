@@ -2,18 +2,30 @@
 
 namespace test\controllers;
 
+use test\components\Controller;
+use test\models\Import;
+
 /**
  * Class SiteController
  */
-class SiteController extends BaseController
+class SiteController extends Controller
 {
     /**
      *
      */
     public function actionImport()
     {
+        if ($_POST) {
+
+            $import = new Import();
+            $import->importCsv($_FILES);
+
+            header('Location: /import');
+        }
+
         return $this->render('import', [
-            'ty' => 'Hello',
+            'title' => 'Импорт',
+            'header' => 'Импорт',
         ]);
     }
 
@@ -22,8 +34,12 @@ class SiteController extends BaseController
      */
     public function actionResult()
     {
+        $data = Import::findAll();
+
         return $this->render('result', [
-            'content' => 'Results',
+            'title' => 'Результаты',
+            'header' => 'Результаты',
+            'data' => $data,
         ]);
     }
 }

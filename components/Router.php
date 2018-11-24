@@ -2,8 +2,6 @@
 
 namespace test\components;
 
-use test\controllers\BaseController;
-
 /**
  * Class Router
  * Controls routes via controllers and actions
@@ -47,7 +45,7 @@ class Router
         $controllerClass = '\\test\\controllers\\' . ucfirst($controllerAction[0]) . 'Controller';
 
         /**
-         * @var $controllerObject BaseController
+         * @var $controllerObject Controller
          */
         if (class_exists($controllerClass)) {
 
@@ -64,7 +62,7 @@ class Router
             }
         } else {
 
-            (new BaseController())->actionError();
+            (new Controller())->actionError();
         }
     }
 }
