@@ -22,9 +22,23 @@ class Router
      * Setting base URL address
      * @return string
      */
-    private function getURL()
+    public function getUrl()
     {
-        return substr($_SERVER['REQUEST_URI'], strlen('/'));
+        return explode('?', substr($_SERVER['REQUEST_URI'], strlen('/')), 2)[0];
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getGetParams()
+    {
+        $parts = parse_url($_SERVER['REQUEST_URI']);
+        if (isset($parts['query'])) {
+            parse_str($parts['query'], $getParams);
+            return $getParams;
+        } else {
+            return [];
+        }
     }
 
     /**
@@ -32,7 +46,7 @@ class Router
      */
     public function run()
     {
-        $uri = $this->getURL();
+        $uri = $this->getUrl();
 
         if (isset($this->routes[$uri])) {
 

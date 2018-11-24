@@ -16,7 +16,11 @@ foreach ($this->data as $key => $import) {
         <tr>
             <?php foreach ($import->getAttributeLabels() as $label) { ?>
 
-                <th scope="col"><?= $label ?></th>
+                <th scope="col">
+                    <a href="/result?<?= $label ?>=<?= $this->sortParam == $label ? $this->sort : $this->sortOther ?>">
+                        <?= $label ?>
+                    </a>
+                </th>
             <?php } ?>
         </tr>
         </thead>

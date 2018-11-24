@@ -6,6 +6,9 @@ use test\models\Import;
 
 class Model
 {
+    const SORT_DESC = 'DESC';
+    const SORT_ASC = 'ASC';
+    const DEFAULT_ORDER_ATTRIBUTE = 'id';
     protected static $tableName;
 
     public function setProperties()
@@ -30,13 +33,25 @@ class Model
         return self::$tableName;
     }
 
-    public static function findAll()
+    public static function findAll($getParams = [])
     {
         try {
             $db = Db::get();
             $models = [];
 
-            $query = "SELECT * FROM " . self::getTableName() . " ORDER BY `id` DESC";
+            $orderParam = self::DEFAULT_ORDER_ATTRIBUTE;
+            $orderSort = self::SORT_DESC;
+
+            if ($getParams) {
+
+                foreach (array_reverse($getParams) as $getParam => $sort) {
+                    $orderParam = $getParam;
+                    $orderSort = $sort;
+                    break;
+                }
+            }
+
+            $query = "SELECT * FROM " . self::getTableName() . " ORDER BY `$orderParam` " . $orderSort;
             $results = $db->query($query);
             if ($results) {
 

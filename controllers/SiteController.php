@@ -3,6 +3,8 @@
 namespace test\controllers;
 
 use test\components\Controller;
+use test\components\Model;
+use test\components\Router;
 use test\models\Import;
 
 /**
@@ -34,12 +36,19 @@ class SiteController extends Controller
      */
     public function actionResult()
     {
-        $data = Import::findAll();
+        $getParams = Router::getGetParams();
+
+        $data = Import::findAll($getParams);
+
+        $sortParam = end($getParams);
 
         return $this->render('result', [
             'title' => 'Результаты',
             'header' => 'Результаты',
             'data' => $data,
+            'sort' => $sortParam == Model::SORT_DESC ? Model::SORT_ASC : Model::SORT_DESC,
+            'sortOther' => Model::SORT_DESC,
+            'sortParam' => key(array_reverse($getParams)),
         ]);
     }
 }
