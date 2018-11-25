@@ -61,16 +61,25 @@ class SiteController extends Controller
         $data = Import::findAll($getParams);
 
         $sortParam = end($getParams);
+        $sort = str_replace('sort', '', key($getParams));
+
+        $filterParams = [];
+        foreach ($getParams as $key => $getParam) {
+            if (!strstr($key, 'sort')) {
+                $filterParams[$key] = $getParam;
+            }
+        }
 
         return $this->render('result', [
             'title' => 'Results',
             'header' => 'Results',
             'error' => !$data ? 'There are no records' : null,
             'data' => $data,
-            'sort' => $sortParam == Model::SORT_DESC ? Model::SORT_ASC : Model::SORT_DESC,
+            'sort' => $sort == Model::SORT_DESC ? Model::SORT_ASC : Model::SORT_DESC,
             'sortOther' => Model::SORT_DESC,
-            'sortParam' => key(array_reverse($getParams)),
-            'arrow' => $sortParam == Model::SORT_DESC ? 'down' : 'up',
+            'sortParam' => $sortParam,
+            'filterParams' => $filterParams,
+            'arrow' => $sort == Model::SORT_DESC ? 'down' : 'up',
             'clear' => $getParams ? true : false,
         ]);
     }

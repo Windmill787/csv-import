@@ -41,17 +41,37 @@ class Model
 
             $orderParam = self::DEFAULT_ORDER_ATTRIBUTE;
             $orderSort = self::SORT_DESC;
+            $sortSql = " ORDER BY `$orderParam` " . $orderSort;
+            $where = '';
 
             if ($getParams) {
 
-                foreach (array_reverse($getParams) as $getParam => $sort) {
-                    $orderParam = $getParam;
-                    $orderSort = $sort;
-                    break;
+                foreach ($getParams as $key => $getParam) {
+                    if (strstr($key, 'sort')) {
+
+                        $orderParam = $getParam;
+                        $orderSort = str_replace('sort', '', $key);
+                        $sortSql = " ORDER BY `$orderParam` " . $orderSort;
+                        break;
+                    } else {
+
+                        if ($where == '') {
+                            $where = " WHERE `$key` LIKE '%" . $getParam . "%'";
+                        } else {
+                            $where .= " AND `$key` LIKE '%" . $getParam . "%'";
+                        }
+                    }
                 }
             }
 
-            $query = "SELECT * FROM " . self::getTableName() . " ORDER BY `$orderParam` " . $orderSort;
+            $query = "SELECT * FROM " . self::getTableName();
+
+            if ($where !== '') {
+                $query .= $where;
+            }
+
+            $query .= $sortSql;
+
             $results = $db->query($query);
             if ($results) {
 
