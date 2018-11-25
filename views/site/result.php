@@ -44,10 +44,10 @@ foreach ($this->data as $key => $import) {
                     <?php if ($index != 5) { ?>
                         <input type="text" name="<?= $label ?>" class="form-control filter <?= $label ?>" placeholder="Filter by <?= $label ?>" value="<?= isset($this->filterParams[$label]) ? $this->filterParams[$label] : '' ?>">
                     <?php } else { ?>
-                        <select class="form-control">
+                        <select class="form-control gender-select" data-attribute="<?= $label ?>">
                             <option></option>
-                            <option>male</option>
-                            <option>female</option>
+                            <option <?= isset($_GET['gender']) && $_GET['gender'] == 'male' ? 'selected ' : '' ?>value="male">male</option>
+                            <option <?= isset($_GET['gender']) && $_GET['gender'] == 'female' ? 'selected ' : '' ?>value="female">female</option>
                         </select>
                     <?php } ?>
 
@@ -79,7 +79,7 @@ foreach ($this->data as $key => $import) {
 
 <?php ?>
 <script>
-    var getParams = ['uid', 'name', 'age', 'email', 'phone', 'gender'];
+    var getParams = ['uid', 'name', 'age', 'email', 'phone'];
     var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = window.location.search.substring(1),
             sURLVariables = sPageURL.split('&'),
@@ -122,11 +122,47 @@ foreach ($this->data as $key => $import) {
                 redirect += '?';
             }
             redirect += 'sort' + $(this).data('sort') + "=" + $(this).data('attribute');
-        window.location.replace(redirect);
+        location.href = redirect;
+    });
+
+    $(".gender-select").change(function() {
+
+        setRedirect();
+
+        if (sortDesc || sortAsc) {
+            if (redirect !== '/result') {
+                redirect += '&';
+            } else {
+                redirect += '?';
+            }
+
+            var sort;
+            var attribute;
+            if (sortDesc == undefined) {
+                sort = 'sortASC';
+                attribute = sortAsc;
+            } else {
+                sort = 'sortDESC';
+                attribute = sortDesc;
+            }
+
+            redirect += sort + "=" + attribute;
+        }
+
+        if (redirect !== '/result') {
+            redirect += '&';
+        } else {
+            redirect += '?';
+        }
+
+        redirect += $('.gender-select').data('attribute') + "=" + $('.gender-select').val();
+
+        location.href = redirect;
+
     });
 
     $('.filter').keypress(function (e) {
-        if (e.which == 13 && $(this).val() !== '') {
+        if (e.which == 13) {
 
 
             if (getUrlParameter($(this).attr('name')) == undefined) {
@@ -150,16 +186,16 @@ foreach ($this->data as $key => $import) {
                 var sort;
                 var attribute;
                 if (sortDesc == undefined) {
-                    sort = 'sortAsc';
+                    sort = 'sortASC';
                     attribute = sortAsc;
                 } else {
-                    sort = 'sortDesc';
+                    sort = 'sortDESC';
                     attribute = sortDesc;
                 }
 
-                redirect += 'sort' + sort + "=" + attribute;
+                redirect += sort + "=" + attribute;
             }
-            window.location.replace(redirect);
+            location.href = redirect;
         }
     });
 </script>

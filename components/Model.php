@@ -52,13 +52,23 @@ class Model
                         $orderParam = $getParam;
                         $orderSort = str_replace('sort', '', $key);
                         $sortSql = " ORDER BY `$orderParam` " . $orderSort;
-                        break;
+
                     } else {
 
-                        if ($where == '') {
-                            $where = " WHERE `$key` LIKE '%" . $getParam . "%'";
+                        if ($key != 'gender') {
+                            if ($where == '') {
+                                $where = " WHERE `$key` LIKE '%" . $getParam . "%'";
+                            } else {
+                                $where .= " AND `$key` LIKE '%" . $getParam . "%'";
+                            }
                         } else {
-                            $where .= " AND `$key` LIKE '%" . $getParam . "%'";
+                            if ($getParam) {
+                                if ($where == '') {
+                                    $where = " WHERE `$key` = '" . $getParam . "'";
+                                } else {
+                                    $where .= " AND `$key` = '" . $getParam . "'";
+                                }
+                            }
                         }
                     }
                 }
