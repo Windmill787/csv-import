@@ -4,7 +4,23 @@
     <span class="pull-right"><a href="/import">Import data</a></span>
 </h1>
 
-<?php if ($this->data) { ?>
+
+<?php if($this->data) { ?>
+<form class="form-horizontal" action="export" method="post" name="export" enctype="multipart/form-data">
+    <fieldset>
+
+        <!-- Clear all records button -->
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="singlebutton"></label>
+            <div class="col-md-5">
+                <button type="submit" id="submit" name="export" class="btn btn-primary button-export" data-loading-text="Loading...">Export</button>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+
+<?php } ?>
 
     <table class="table table-bordered">
 
@@ -49,9 +65,3 @@ foreach ($this->data as $key => $import) {
     </table>
 
 <?php ?>
-
-<?php } else { ?>
-
-    <div class="alert alert-info">There are no records</div>
-
-<?php } ?>

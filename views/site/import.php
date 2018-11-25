@@ -10,16 +10,16 @@
 
                 <!-- File Button -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="filebutton">Choose file</label>
-                    <div class="col-md-4">
+                    <label class="col-md-5 control-label" for="filebutton"></label>
+                    <div class="col-md-5">
                         <input type="file" name="file" id="file" class="input-large" data-max-size="1000000">
                     </div>
                 </div>
 
                 <!-- Import button -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="singlebutton">Import</label>
-                    <div class="col-md-4">
+                    <label class="col-md-5 control-label" for="singlebutton"></label>
+                    <div class="col-md-5">
                         <button type="submit" id="submit" name="import" class="btn btn-primary button-loading" data-loading-text="Loading...">Import</button>
                     </div>
                 </div>
@@ -32,9 +32,9 @@
 
                 <!-- Clear all records button -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="singlebutton">Clear all records</label>
-                    <div class="col-md-4">
-                        <button type="submit" id="submit" name="import" class="btn btn-primary button-loading" data-loading-text="Loading...">Clear all records</button>
+                    <label class="col-md-5 control-label" for="singlebutton"></label>
+                    <div class="col-md-5">
+                        <button type="submit" id="submit" name="import" class="btn btn-primary button-clearing" data-loading-text="Loading...">Clear all records</button>
                     </div>
                 </div>
 
@@ -45,6 +45,16 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('.button-clearing').click(function() {
+            if (confirm('Are you sure you want to clear all records?')) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    });
+
     $(function() {
         var fileInput = $('#file');
         var maxSize = fileInput.data('max-size');

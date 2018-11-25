@@ -22,7 +22,11 @@ class SiteController extends Controller
             $import = new Import();
             if ($import->importCsv($_FILES)) {
 
-                header('Location: /import');
+                return $this->render('import', [
+                    'title' => 'Import',
+                    'header' => 'Import',
+                    'success' => 'File successfully imported',
+                ]);
             } else {
 
                 return $this->render('import', [
@@ -39,6 +43,14 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionExport()
+    {
+        if ($_POST) {
+
+            Import::exportCsv();
+        }
+    }
+
     /**
      *
      */
@@ -53,6 +65,7 @@ class SiteController extends Controller
         return $this->render('result', [
             'title' => 'Results',
             'header' => 'Results',
+            'error' => !$data ? 'There are no records' : null,
             'data' => $data,
             'sort' => $sortParam == Model::SORT_DESC ? Model::SORT_ASC : Model::SORT_DESC,
             'sortOther' => Model::SORT_DESC,
@@ -70,8 +83,17 @@ class SiteController extends Controller
         if ($_POST) {
 
             Import::deleteAll();
+
+            return $this->render('import', [
+                'title' => 'Import',
+                'header' => 'Import',
+                'success' => 'All records were successfully removed',
+            ]);
         }
 
-        header('Location: /import');
+        return $this->render('import', [
+            'title' => 'Import',
+            'header' => 'Import',
+        ]);
     }
 }

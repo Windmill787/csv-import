@@ -33,6 +33,10 @@
             <div class="alert alert-danger" role="alert"><?= $viewObject->error ?></div>
         <?php } ?>
 
+        <?php if (isset($viewObject->success)) { ?>
+            <div class="alert alert-success" role="alert"><?= $viewObject->success ?></div>
+        <?php } ?>
+
         <?= $viewObject->renderFile() ?>
     </div>
 
