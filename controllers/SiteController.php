@@ -20,14 +20,22 @@ class SiteController extends Controller
         if ($_POST) {
 
             $import = new Import();
-            $import->importCsv($_FILES);
+            if ($import->importCsv($_FILES)) {
 
-            header('Location: /import');
+                header('Location: /import');
+            } else {
+
+                return $this->render('import', [
+                    'title' => 'Import',
+                    'header' => 'Import',
+                    'error' => 'Wrong file format',
+                ]);
+            }
         }
 
         return $this->render('import', [
-            'title' => 'Импорт',
-            'header' => 'Импорт',
+            'title' => 'Import',
+            'header' => 'Import',
         ]);
     }
 
@@ -43,12 +51,27 @@ class SiteController extends Controller
         $sortParam = end($getParams);
 
         return $this->render('result', [
-            'title' => 'Результаты',
-            'header' => 'Результаты',
+            'title' => 'Results',
+            'header' => 'Results',
             'data' => $data,
             'sort' => $sortParam == Model::SORT_DESC ? Model::SORT_ASC : Model::SORT_DESC,
             'sortOther' => Model::SORT_DESC,
             'sortParam' => key(array_reverse($getParams)),
+            'arrow' => $sortParam == Model::SORT_DESC ? 'down' : 'up',
+            'clear' => $getParams ? true : false,
         ]);
+    }
+
+    /**
+     *
+     */
+    public function actionClear()
+    {
+        if ($_POST) {
+
+            Import::deleteAll();
+        }
+
+        header('Location: /import');
     }
 }

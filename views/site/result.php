@@ -1,6 +1,12 @@
-<h1><?= $this->header ?></h1>
+<h1><?= $this->header ?>
+    <?= $this->clear ? '<a href="/result"><i class="fas fa-filter" title="Очистить фильтр"></i></a>' : '' ?>
 
-    <table class="table">
+    <span class="pull-right"><a href="/import">Import data</a></span>
+</h1>
+
+<?php if ($this->data) { ?>
+
+    <table class="table table-bordered">
 
 <?php
 
@@ -19,6 +25,7 @@ foreach ($this->data as $key => $import) {
                 <th scope="col">
                     <a href="/result?<?= $label ?>=<?= $this->sortParam == $label ? $this->sort : $this->sortOther ?>">
                         <?= $label ?>
+                        <?= $this->sortParam == $label ? "<i class=\"fas fa-arrow-$this->arrow\"></i>" : '' ?>
                     </a>
                 </th>
             <?php } ?>
@@ -31,13 +38,20 @@ foreach ($this->data as $key => $import) {
             <th scope="row"><?= $import->uid ?></th>
             <td><?= $import->name ?></td>
             <td><?= $import->age ?></td>
-            <td>@<?= $import->email ?></td>
-            <td>@<?= $import->phone ?></td>
-            <td>@<?= $import->gender ?></td>
+            <td><?= $import->email ?></td>
+            <td><?= $import->phone ?></td>
+            <td><?= $import->gender ?></td>
         </tr>
         </tbody>
 
 <?php } ?>
 
     </table>
+
 <?php ?>
+
+<?php } else { ?>
+
+    <div class="alert alert-info">There are no records</div>
+
+<?php } ?>

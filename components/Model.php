@@ -8,7 +8,7 @@ class Model
 {
     const SORT_DESC = 'DESC';
     const SORT_ASC = 'ASC';
-    const DEFAULT_ORDER_ATTRIBUTE = 'id';
+    const DEFAULT_ORDER_ATTRIBUTE = 'uid';
     protected static $tableName;
 
     public function setProperties()
@@ -94,11 +94,15 @@ class Model
         $properties = get_object_vars($this);
         $labels = [];
         foreach ($properties as $property => $value) {
-            if ($property == 'id') {
-                continue;
-            }
             $labels[] = $property;
         }
         return $labels;
+    }
+
+    public static function deleteAll()
+    {
+        $db = Db::get();
+        $query = "DELETE FROM " . self::getTableName();
+        $db->query($query);
     }
 }
